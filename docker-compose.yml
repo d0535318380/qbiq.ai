@@ -1,0 +1,63 @@
+services:
+  # FastAPI application service
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: weather-api
+    ports:
+      - "8000:8000"
+    environment:
+      # These can be overridden with .env file
+      - APP_NAME=Weather API
+      - DEBUG=false
+      - API_VERSION=v1
+    volumes:
+      # Mount source code for development (comment out for production)
+      - ./app:/app/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # Redis service
+  redis:
+    image: redis:7-alpine
+    container_name: weather-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # Optional: Add more services as needed (database, etc.)
+  # Example PostgreSQL service (commented out):
+  # db:
+  #   image: postgres:16-alpine
+  #   container_name: weather-db
+  #   environment:
+  #     - POSTGRES_USER=weather
+  #     - POSTGRES_PASSWORD=weather
+  #     - POSTGRES_DB=weather
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+volumes:
+  redis_data:
+#   postgres_data:
+
+networks:
+  default:
+    name: weather-network

@@ -1,0 +1,11 @@
+# Development dependencies
+# Install with: pip install -r requirements-dev.txt
+
+# Include base requirements
+-r requirements.txt
+
+# Linting and formatting
+#ruff==0.8.4  # Modern Python linter and formatter (replaces Black, flake8, isort)
+
+# Additional testing tools
+pytest-cov==6.0.0  # Coverage reports for pytest
