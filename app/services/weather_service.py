@@ -49,7 +49,7 @@ class WeatherService:
                     }
                 )
 
-                self.logger.info("Weather provider response", city=city, status_code=response.status_code, attempt=attempt + 1)
+                self.logger.info("Weather provider response", city=city, status_code=response.status_code)
                 response.raise_for_status()
 
                 return response.json()

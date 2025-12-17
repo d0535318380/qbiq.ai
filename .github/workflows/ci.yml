@@ -83,10 +83,7 @@ jobs:
         with:
           context: .
           push: false
-          tags: fastapi-template:test
+          tags: fweather-proxy-api:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Test Docker image
-        run: |
-          docker run --rm fastapi-template:test pytest -v

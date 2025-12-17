@@ -2,21 +2,15 @@
 Main FastAPI application.
 This is the entry point that ties all modules together.
 """
-
-from fastapi.middleware.cors import CORSMiddleware
-
 # Import router from nested routes module
-# This demonstrates importing from app.api.routes.weather
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes import weather
 from app.core.config import settings
-
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-
 from redis import asyncio as aioredis
 from app.core.logging import configure_logging, get_logger
 

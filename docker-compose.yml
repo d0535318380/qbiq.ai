@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: weather-api
+    container_name: weather-proxy-api
     ports:
       - "8000:8000"
     environment:
@@ -38,21 +38,6 @@ services:
       timeout: 3s
       retries: 3
       start_period: 5s
-
-  # Optional: Add more services as needed (database, etc.)
-  # Example PostgreSQL service (commented out):
-  # db:
-  #   image: postgres:16-alpine
-  #   container_name: weather-db
-  #   environment:
-  #     - POSTGRES_USER=weather
-  #     - POSTGRES_PASSWORD=weather
-  #     - POSTGRES_DB=weather
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   restart: unless-stopped
 
 volumes:
   redis_data:
