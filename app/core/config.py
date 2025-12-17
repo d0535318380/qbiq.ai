@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     debug: bool = False
     api_version: str = "v1"
     max_temperature: float = 100.0
-    weatherstack_api_key: str =  "75371f224d72a622591dd93b48af8bec"
+    weatherstack_api_key: str = "75371f224d72a622591dd93b48af8bec"
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

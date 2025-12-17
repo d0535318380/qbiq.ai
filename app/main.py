@@ -2,21 +2,23 @@
 Main FastAPI application.
 This is the entry point that ties all modules together.
 """
+
 # Import router from nested routes module
-from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import weather
-from app.core.config import settings
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
-from app.core.logging import configure_logging, get_logger
+
+from app.api.routes import weather
+from app.core.config import settings
+from app.core.logging import configure_logging
 
 configure_logging(
-    log_level="DEBUG" if settings.debug else "INFO",
-    json_logs=not settings.debug
+    log_level="DEBUG" if settings.debug else "INFO", json_logs=not settings.debug
 )
 
 
@@ -25,6 +27,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     redis = aioredis.from_url("redis://localhost")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     yield
+
 
 # Create FastAPI application instance
 app = FastAPI(

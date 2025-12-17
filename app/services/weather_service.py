@@ -4,11 +4,14 @@ This demonstrates how to organize service/business logic layer.
 Includes retry mechanism for resilience.
 """
 
-import httpx
 from typing import Any
+
+import httpx
+from tenacity import retry, stop_after_attempt, wait_exponential
+
 from app.core.config import settings
 from app.core.logging import get_logger
-from tenacity import retry, stop_after_attempt, wait_exponential
+
 
 class WeatherService:
     """
@@ -42,14 +45,14 @@ class WeatherService:
             async with httpx.AsyncClient(timeout=10.0) as client:
                 response = await client.get(
                     "https://api.weatherstack.com/current",
-                    params={
-                        "access_key": self.access_key,
-                        "query": city,
-                        "units": "m"
-                    }
+                    params={"access_key": self.access_key, "query": city, "units": "m"},
                 )
 
-                self.logger.info("Weather provider response", city=city, status_code=response.status_code)
+                self.logger.info(
+                    "Weather provider response",
+                    city=city,
+                    status_code=response.status_code,
+                )
                 response.raise_for_status()
 
                 return response.json()
@@ -57,6 +60,7 @@ class WeatherService:
         except Exception as e:
             self.logger.error("Weather provider failed", city=city, ex=e)
             raise ValueError(f"An error occurred: {e}") from e
+
 
 # Create a singleton instance that can be imported
 weather_service = WeatherService(settings)

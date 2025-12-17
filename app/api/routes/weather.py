@@ -6,11 +6,11 @@ This demonstrates proper importing from nested service modules.
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query
+from fastapi_cache.decorator import cache
 
 # Example of importing from deeply nested module structure
 # Note: We use absolute imports starting from 'app'
 from app.services.weather_service import weather_service
-from fastapi_cache.decorator import cache
 
 # Create a router instance
 router = APIRouter(

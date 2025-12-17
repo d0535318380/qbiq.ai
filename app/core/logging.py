@@ -1,6 +1,7 @@
 """
 Structured logging configuration using structlog.
 """
+
 import logging
 import sys
 from typing import Any
@@ -9,9 +10,13 @@ import structlog
 from structlog.types import EventDict, Processor
 
 
-def add_app_context(logger: logging.Logger, method_name: str, event_dict: EventDict) -> EventDict:
+def add_app_context(
+    logger: logging.Logger, method_name: str, event_dict: EventDict
+) -> EventDict:
     """Add application context to log entries."""
     event_dict["app"] = "weather-api"
+    event_dict["method_name"] = method_name
+    event_dict["logger_name"] = logger.name
     return event_dict
 
 
